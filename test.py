@@ -6,6 +6,7 @@ from exceptions.product_not_on_sale_exception import ProductNotOnSaleException
 from users.person import Person
 from products.product import Product
 from stores.store import Store
+from navigation import navigation
 
 class Tests(unittest.TestCase):
     """
@@ -98,5 +99,12 @@ class Tests(unittest.TestCase):
         print(self.kfc)
         print(self.park)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_buy_registered_product(self):
+        """
+        네비게이션 테스트 메서드
+        유저와 가게 사이의 적당한 경로를 출력해줍니다.
+
+        가능하면 예시에 있는 좌표를 입력하기를 권장드립니다.
+        """
+        navigation()
+        
