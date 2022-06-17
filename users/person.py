@@ -1,3 +1,63 @@
+"""
+# 의사코드
+
+IMPORT uuid
+FROM exceptions.product_not_found_exception IMPORT ProductNotFoundException
+
+CLASS Person():
+    FUNC 생성자 함수(고객이름, 고객이 보유한 금액)
+        id를 uuid.uuid1()로 초기화
+        name을 고객 이름으로 초기화
+        wallet을 고객이 보유한 금액으로 초기화
+        point를 0으로 초기화
+
+    FUNC 물건을 구매하는 함수(상품을 구매한 매장, 상품):
+        TRY
+            물건 = 상점의 레포지토리에서 꺼내온 물건
+            IF 상품의 이름이 상점의 레포지토리에 있고 상품의 수량이 0보다 크다면 THEN
+                상품의 개수가 하나 줄어듬
+                고객이 보유한 금액에서 상품의 가격만큼 돈을 뺌
+                고객이 보유한 포인트에 (구매한 상품의 가격 * 0.1)의 값을 더함
+                상점의 수입에 고객이 구매한 물건의 가격이 더해짐
+                상점의 고객 명단에 고객의 아이디와 이름 추가
+            ELSE:
+                RAISE ProductNotFoundException
+            RETURN 구매한 상품명과 함께 구매 문구 출력
+        TRY블록에서 오류가 발생한다면 THEN
+            RAISE ProductNotFoundException
+
+    FUNC 고객이 일을 하고 고객이 보유한 금액을 충전해주는 함수:
+        고객보유 금액에 10000원을 추가
+        일당이 입금되었음을 알리는 문구 출력
+
+    FUNC 고객이 보유한 잔액을 확인해주는 함수:
+        고객이 보유한 잔액을 알려주는 문구 출력
+
+    FUNC 고객의 아이디를 반환하는 함수:
+        RETURN 고객의 아이디
+
+    FUNC 고객의 이름을 반환하는 함수:
+        RETURN 고객의 이름
+
+    FUNC 고객의 이름을 세팅하는 함수(문자열로 입력된 고객명)
+        문자열로 입력된 고객명을 고객 이름으로 설정
+
+    FUNC 고객이 보유한 금액을 반환하는 함수
+        RETURN 고객이 보유한 금액
+
+    FUNC 고객이 보유한 금액을 세팅하는 함수(정수열로 입력된 금액)
+        정수열로 입력된 보유액을 고객이 보유한 금액으로 설정
+
+    FUNC 고객이 보유한 포인트를 반환하는 함수
+        RETURN 포인트
+
+    FUNC 고객이 보유한 포인트를 세팅하는 함수(정수열로 입력된 포인트)
+        정수열로 입력된 포인트를 고객이 보유한 포인트로 설정
+
+    FUNC 문자열로 반환시키는 함수:
+        RETURN 고객명과 보유액, 보유 포인트를 알려주는 문구 출력
+"""
+
 import uuid
 from exceptions.product_not_found_exception import ProductNotFoundException
 
@@ -26,11 +86,11 @@ class Person():
             else:
                 raise ProductNotFoundException
 
-            print(f"{product.get_product_name()}을 구입했습니다")
-        except ProductNotFoundException:
+            return f"{product.get_product_name()}을 구입했습니다"
+        except ProductNotFoundException as not_found_exception:
             # print(f"현재 {store.get_store_name()} 매장에 해당 제품의 재고가 없습니다.")
-            raise ProductNotFoundException
-            
+            raise ProductNotFoundException from not_found_exception
+
 
     def work(self):
         """
@@ -94,3 +154,4 @@ class Person():
         사람 객체의 정보를 반환하는 클래스입니다.
         """
         return f"{self.__customer_name}씨는 현금{self.__wallet}원과 {self.__points}포인트를 가지고 있습니다."
+    
